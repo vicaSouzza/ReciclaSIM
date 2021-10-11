@@ -1,5 +1,5 @@
 ## Importando arquivo funções (functions.py)
-from myMethods import limpaConsole, exibeMenuInicial, getOpcoesCategorias, exibeObjetosByOpcao, exibeMensagemErro
+from myMethods import exibeInfoByopcao, limpaConsole, exibeMenuInicial, getOpcoesMenuInicial, exibeMensagemErro, exibeMenuFim
 
 if __name__ == "__main__":
     ## Constantes
@@ -15,26 +15,19 @@ if __name__ == "__main__":
 
         exibeMenuInicial()
 
-        opcaoEscolhida = input('\nOpção desejada: ')
+        opcaoEscolhida = input('\nDigite o número da opção desejada: ')
 
         ## Converte para inteiro (int) caso o usuário tenha digitado somente números
         opcaoEscolhida = int(opcaoEscolhida) if opcaoEscolhida.isnumeric() else str(opcaoEscolhida)
 
-        if getOpcoesCategorias().count(opcaoEscolhida) > 0:
+        if getOpcoesMenuInicial().count(opcaoEscolhida) > 0:
             menuInicial = False
 
             if opcaoEscolhida != OPCAO_ENCERRAR_PROGRAMA:
-                menuInicial = exibeObjetosByOpcao(opcaoEscolhida)
+                menuInicial = exibeInfoByopcao(opcaoEscolhida)
             else:
                 limpaConsole()
-                print(
-                """
-                    Encerrando o programa...
-                    Obrigado por utilizar a nossa solução!
-
-                    Desenvolvido por:
-                        - SAMUEL OLIVEIRA
-                """)
+                exibeMenuFim()    
         else:
             textoErro = 'Opção inexistente.' if len(str(opcaoEscolhida)) > 0 else 'Digite alguma coisa.'
             exibeMensagemErro(textoErro + '. Tente novamente.')

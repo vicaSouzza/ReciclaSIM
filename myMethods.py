@@ -4,60 +4,56 @@ from math import radians, cos, sin, asin, sqrt
 
 ## Constantes
 OPCAO_VOLTAR = 'VOLTAR'
-
 OPCAO_SIM = 'SIM'
 OPCAO_NAO = 'NAO'
 
 ## Exibe o menu principal da aplicação (solicita ao usuário a escolha de uma categoria)
 def exibeMenuInicial():
-    ## http://patorjk.com/software/taag (converte texto para ASCII)
+  
     print(
-    r"""
-    ______          _      _             
-    | ___ \        (_)    | |        _   
-    | |_/ /___  ___ _  ___| | __ _ _| |_ 
-    |    // _ \/ __| |/ __| |/ _` |_   _|
-    | |\ \  __/ (__| | (__| | (_| | |_|  
-    \_| \_\___|\___|_|\___|_|\__,_|       
-    """)
-    print(
-        """O objetivo deste programa é facilitar o processo de reciclagem, desde a identificação do reciclável até a localização de um ponto para coleta. É tudo muito fácil, vamos começar!?\n""")
-    print(
-        """Digite o número de uma categoria abaixo:
-        
-        [1] - Plástico
-        [2] - Metal
-        [3] - Vidro
-        [4] - Papel
-        [5] - Eletrônicos
-        [6] - Encerrar o programa"""
-    )
+    r'''                                                                                                                                                                           
+     ___        _    _      ___ ___ __  __ 
+    | _ \___ __(_)__| |__ _/ __|_ _|  \/  |
+    |   / -_) _| / _| / _` \__ \| || |\/| |
+    |_|_\___\__|_\__|_\__,_|___/___|_|  |_|
+                                            
+                                                                
+    ''') 
+    print('''\nO objetivo deste programa é facilitar o processo de reciclagem auxiliando na identificação do material reciclável e depois na localização de um ponto de coleta. VAMOS COMEÇAR? 
+    É muito facil, siga minhas instruções.
+            
+            [1] - Plástico
+            [2] - Metal
+            [3] - Vidro
+            [4] - Papel
+            [5] - Eletrônicos
+            [6] - Encerrar o programa''')
 
 def exibeMenuFim():
    print(
-                """
-                    Encerrando o programa...
-                    Obrigado por utilizar a nossa solução!
+        '''
+            Encerrando o programa...
+            Obrigado por utilizar a nossa solução!
 
-                    Desenvolvido por:
-                        - SAMUEL OLIVEIRA
-                """)
+            Desenvolvido por:
+                - VITÓRIA SOUZA
+        ''')
     
-## Obtem um array/vetor contendo o número das categorias disponíveis
-def getOpcoesCategorias():
+## Obtem um array/vetor contendo o número das opções disponíveis
+def getOpcoesMenuInicial():
     return [ 1, 2, 3, 4, 5, 6]
 
-## Obtem um array/vetor contendo o número das opções disponíveis de uma dada lista de objetos
-def getOpcoesByObjetos(info):
+## Obtem um array/vetor contendo o número das opções disponíveis de uma dada lista de informações
+def getOpcoesByInformacoes(info):
     opcoesDisponiveis = []
 
-    for objeto in info:
-        opcoesDisponiveis.append(objeto['id'])
+    for informacoes in info:
+        opcoesDisponiveis.append(informacoes['id'])
 
     return opcoesDisponiveis
 
 ## Converte uma opção de menu (1, 2, 3, etc.) para um tipo específico (papel, vidro, etc.)
-def convertOpcaoToTipo(opcao):
+def convertOpcaoByTipo(opcao):
     if opcao == 1:
         return 'plastico'
     elif opcao == 2:
@@ -82,21 +78,21 @@ def getPontosDeColetaByCategoria(categoria):
 
     return pontosDeColeta
 
-## Retorna um array/vetor contendo os objetos disponíveis para serem reciclados baseado num tipo específico (plástico, vidro, etc.)
-def getObjetosByTipo(opcao):
-    objetos = []
-    tipo = convertOpcaoToTipo(opcao)
-    for objeto in getObjetos():
-        if objeto['tipo'] == tipo:
-            objetos.append(objeto)
+## Retorna um array/vetor contendo as opções de informações sobre o material escolhido (plástico, vidro, etc.)
+def getInfoByTipo(opcao):
+    informacoes = []
+    tipo = convertOpcaoByTipo(opcao)
+    for info in getInfo():
+        if info['tipo'] == tipo:
+            informacoes.append(info)
 
-    return objetos
+    return informacoes
 
-## Retorna um objeto realizando uma busca em uma dada lista e por um dado id
-def getObjetoById(objetos, id):
-    for objeto in objetos:
-        if objeto['id'] == id:
-            return objeto
+## Retorna uma informação 
+def getInfoById(informacoes, id):
+    for informacoes in informacoes:
+        if informacoes['id'] == id:
+            return informacoes
 
 ## Retorna o ponto de coleta mais próximo (se baseia na latitude e longitude do usuário)
 def getPontosDeColetaMaisProximo(pontosDeColeta, latitude, longitude, distMax):
@@ -135,34 +131,35 @@ def getPontosDeColetaMaisProximo(pontosDeColeta, latitude, longitude, distMax):
 
     return pontos
 
-## Exibe o banco de objetos a partir de uma opção escolhida (plástico, vidro, etc.)
-def exibeObjetosByOpcao(numeroOpcao):
+## Exibe o banco de informações a partir de uma opção escolhida (plástico, vidro, etc.)
+def exibeInfoByopcao(numeroinf):
     ## Variáveis
-    objetos = getObjetosByTipo(numeroOpcao)
-    opcoesDisponiveis = getOpcoesByObjetos(objetos)
+    informacoes = getInfoByTipo(numeroinf)
+    opcoesDisponiveis = getOpcoesByInformacoes(informacoes)
     opcaoEscolhida = 0
     opcaoValida = False
-    objetoEscolhido = {}
+    InfoEscolhido = {}
 
-    ## Solicita ao usuário escolher um objeto a ser reciclado 
+    ## Solicita ao usuário qual informação ele gostaria de saber 
     while not(opcaoValida):
         limpaConsole()
 
-        print('Exibindo os materiais recicláveis para a categoria informada..\n')
+        print('Exibindo as opções de informações sobre o material escolhido...\n')
 
-        for objeto in objetos:
-            print("""   * """ + '[{id}] - {nome}'.format(id = objeto['id'], nome = objeto['descricao']))
+        for info in informacoes:
+            print("""   * """ + '[{id}] - {nome}'.format(id = info['id'], nome = info['descricao']))
 
         print('\nNOTA: Se quiser voltar para o menu inicial, digite a palavra VOLTAR ;)')
+       
 
-        opcaoEscolhida = input('\nO que deseja saber sobre o ' + str(objeto['tipo']) +', digite um numero: ')
+        opcaoEscolhida = input('\nO que deseja saber sobre o ' + str(info['tipo']) +', digite um numero: ')
 
         # ## Converte para inteiro (int) caso o usuário tenha digitado somente números
         opcaoEscolhida = int(opcaoEscolhida) if opcaoEscolhida.isnumeric() else str(opcaoEscolhida)
 
         if opcoesDisponiveis.count(opcaoEscolhida):
             opcaoValida = True
-            objetoEscolhido = getObjetoById(objetos, opcaoEscolhida)
+            infoEscolhida = getInfoById(informacoes, opcaoEscolhida)
         elif str(opcaoEscolhida).upper() == OPCAO_VOLTAR:
             ## Volta para o menu inicial
             return True
@@ -173,19 +170,19 @@ def exibeObjetosByOpcao(numeroOpcao):
     ## Reseta variável 'opcaoValida'
     opcaoValida = False
 
-    ## Exibe os detalhes do objeto e solicita a localização (coordenadas) do usuário
+    ## Exibe a informação e solicita a localização (coordenadas) do usuário
     while not(opcaoValida):
         ## Variáveis
         latitude = ''
         longitude = ''
-        pontosDeColetaDisponiveis = getPontosDeColetaByCategoria(objetoEscolhido['tipo'])
+        pontosDeColetaDisponiveis = getPontosDeColetaByCategoria(infoEscolhida['tipo'])
         pontosDeColetaMaisProximos = {}
 
         limpaConsole()
 
-        print('Dados do material a ser reciclado:\n')
+        ##print('Dados do material a ser reciclado:\n')
         
-        exibeDetalhesObjeto(objetoEscolhido)
+        exibeInfo(infoEscolhida)
     
         
         opcao_sim_ou_nao = input('\nDeseja descobrir quais são os Pontos de Coletas mais proximo? Opçoes, digite SIM ou NAO)\n')
@@ -214,7 +211,7 @@ def exibeObjetosByOpcao(numeroOpcao):
                         for ponto in pontosDeColetaMaisProximos :
                             print('Distância: ', format(ponto['distancia'], '.2f'), ' Km\nNome: ', ponto['nome'], '\nEndereço: ', ponto['endereco'], '\n')
                     else:
-                        print(f'Não encontramos nenhum ponto de coleta no raio de {distMax:.2f} km. O local mais próximo encontra-se logo abaixo: ')
+                        print(f'Que pena!! não encontramos nenhum ponto de coleta no raio de {distMax:.2f} km. O local mais próximo encontra-se logo abaixo: ')
                         print('\nDistância: ', format(pontosDeColetaMaisProximos[0]['distancia'], '.2f'), ' Km\nNome: ', pontosDeColetaMaisProximos[0]['nome'], '\nEndereço: ', pontosDeColetaMaisProximos[0]['endereco'], '\n')
 
                     input('\nPressione qualquer tecla para voltar ao menu inicial!\n')
@@ -231,13 +228,13 @@ def exibeObjetosByOpcao(numeroOpcao):
     ## Retorna True, assim redireciona o usário para o menu inicial da aplicação
     return True
 
-## Exibe os detalhes do objeto a ser reciclado
-def exibeDetalhesObjeto(objeto):
-    print("""  => Informações sobre o material: """ + str(objeto['obs']))
+## Exibe a informação escolhida
+def exibeInfo(info):
+    print("""  => Informações sobre o material: """ + str(info['obs']))
 
 ## Solicita ao usuário a distância máxima que ele está disposto a percorrer
 def digiteDistancia():
-    return input('Digite a distância máxima (em KM) que você está disposto a percorrer pelo ponto --> ')
+    return input('Qual a distância máxima (em KM) você está disposto a percorrer pelo ponto: ')
 
 ## Exibe uma mensagem de erro no console
 def exibeMensagemErro(msg):
@@ -252,8 +249,8 @@ def limpaConsole():
     os.system('clear') ## windows
     os.system('cls') ## Executa o comando 'cls' no console no linux
 
-## Retorna um array/vetor contendo todos os objetos disponíveis para serem reciclados
-def getObjetos():
+## Retorna um array/vetor contendo todas as informarções que podem ser coletadas do material escolhido
+def getInfo():
     return  [
         { 'id': 1, 'descricao': 'Caracteristica', 
             'obs': 
