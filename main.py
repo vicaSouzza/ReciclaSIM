@@ -3,7 +3,7 @@ from myMethods import exibeInfoByopcao, limpaConsole, exibeMenuInicial, getOpcoe
 
 if __name__ == "__main__":
     ## Constantes
-    OPCAO_ENCERRAR_PROGRAMA = 6
+    ENCERRAR = 6
 
     ## Variáveis
     menuInicial = True
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         if getOpcoesMenuInicial().count(opcaoEscolhida) > 0:
             menuInicial = False
 
-            if opcaoEscolhida != OPCAO_ENCERRAR_PROGRAMA:
+            if opcaoEscolhida != ENCERRAR:
                 menuInicial = exibeInfoByopcao(opcaoEscolhida)
             else:
                 limpaConsole()
@@ -31,3 +31,5 @@ if __name__ == "__main__":
         else:
             textoErro = 'Opção inexistente.' if len(str(opcaoEscolhida)) > 0 else 'Digite alguma coisa.'
             exibeMensagemErro(textoErro + '. Tente novamente.')
+
+

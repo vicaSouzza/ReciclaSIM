@@ -3,9 +3,9 @@ import os
 from math import radians, cos, sin, asin, sqrt
 
 ## Constantes
-OPCAO_VOLTAR = 'VOLTAR'
-OPCAO_SIM = 'SIM'
-OPCAO_NAO = 'NAO'
+VOLTAR = 'VOLTAR'
+SIM = 'SIM'
+SAIR = 'SAIR'
 
 ## Exibe o menu principal da aplicação (solicita ao usuário a escolha de uma categoria)
 def exibeMenuInicial():
@@ -160,7 +160,7 @@ def exibeInfoByopcao(numeroinf):
         if opcoesDisponiveis.count(opcaoEscolhida):
             opcaoValida = True
             infoEscolhida = getInfoById(informacoes, opcaoEscolhida)
-        elif str(opcaoEscolhida).upper() == OPCAO_VOLTAR:
+        elif str(opcaoEscolhida).upper() == VOLTAR:
             ## Volta para o menu inicial
             return True
         else:
@@ -180,14 +180,16 @@ def exibeInfoByopcao(numeroinf):
 
         limpaConsole()
 
-        ##print('Dados do material a ser reciclado:\n')
         
         exibeInfo(infoEscolhida)
     
-        
-        opcao_sim_ou_nao = input('\nDeseja descobrir quais são os Pontos de Coletas mais proximo? Opçoes, digite SIM ou NAO)\n')
+        print('\n-------------------------------------------------------- VAMOS CONTINUAR? ----------------------------------------------------------------------\n')
+        print('\nOpcoes:\n')
+        print('\nSe deseja descobrir qual o ponto de coleta mais próximo. Digite: SIM.  \nSe deseja voltar ao menu anterior. Digite: VOLTAR. \nSe deseja sair. Digite: SAIR.  \n\n')
+        opcao_escolha = input('\nDigite sua escolha: ')
 
-        if OPCAO_SIM == opcao_sim_ou_nao:
+      
+        if SIM == opcao_escolha:
             latitude = str(input('Digite a sua latitude: '))
             longitude = str(input('Digite a sua longitude: '))
 
@@ -221,7 +223,10 @@ def exibeInfoByopcao(numeroinf):
             else:
                 opcaoValida = False
                 exibeMensagemErro('Certifique-se de digitar os dados corretamente.')
-        if OPCAO_NAO == opcao_sim_ou_nao:
+        if VOLTAR == opcao_escolha:
+            exibeInfoByopcao(numeroinf)
+            return False
+        if SAIR == opcao_escolha:
             exibeMenuFim()
             return False
         
@@ -230,7 +235,7 @@ def exibeInfoByopcao(numeroinf):
 
 ## Exibe a informação escolhida
 def exibeInfo(info):
-    print("""  => Informações sobre o material: """ + str(info['obs']))
+    print('''------------------------------------------------- Informações sobre o material ----------------------------------------------------------------- ''' + str(info['obs']))
 
 ## Solicita ao usuário a distância máxima que ele está disposto a percorrer
 def digiteDistancia():
