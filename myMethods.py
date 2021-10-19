@@ -6,12 +6,14 @@ from math import radians, cos, sin, asin, sqrt
 VOLTAR = 'VOLTAR'
 SIM = 'SIM'
 SAIR = 'SAIR'
+ENCERRAR = 6
 
-## Exibe o menu principal da aplicação (solicita ao usuário a escolha de uma categoria)
+## Exibe o menu principal  e solicita ao usuário a escolha de uma das opções
 def exibeMenuInicial():
   
     print(
     r'''                                                                                                                                                                           
+    
      ___        _    _      ___ ___ __  __ 
     | _ \___ __(_)__| |__ _/ __|_ _|  \/  |
     |   / -_) _| / _| / _` \__ \| || |\/| |
@@ -32,18 +34,18 @@ def exibeMenuInicial():
 def exibeMenuFim():
    print(
         '''
-            Encerrando o programa...
+            Encerrando...
             Obrigado por utilizar a nossa solução!
 
             Desenvolvido por:
                 - VITÓRIA SOUZA
         ''')
     
-## Obtem um array/vetor contendo o número das opções disponíveis
+## Obtem um array/vetor com o número das opções disponíveis
 def getOpcoesMenuInicial():
     return [ 1, 2, 3, 4, 5, 6]
 
-## Obtem um array/vetor contendo o número das opções disponíveis de uma dada lista de informações
+## Obtem um array/vetor contendo o número das opções disponíveis da lista de informações
 def getOpcoesByInformacoes(info):
     opcoesDisponiveis = []
 
@@ -67,7 +69,7 @@ def convertOpcaoByTipo(opcao):
     else:
         return ''
 
-## Retorna os pontos de coleta a partir de uma categoria (plástico, vidro, papel, etc.)
+## Retorna os pontos de coleta a partir de uma categoria (plástico, vidro, papel...)
 def getPontosDeColetaByCategoria(categoria):
     pontosDeColeta = []
 
@@ -110,14 +112,17 @@ def getPontosDeColetaMaisProximo(pontosDeColeta, latitude, longitude, distMax):
 
         # Calcule a distância (em várias unidades) entre dois pontos na Terra usando sua latitude e longitude.
         # Haversine
+        #fonte:  https://www.ti-enxame.com/pt/python/como-posso-estimar-rapidamente-distancia-entre-dois-pontos-latitude-e-longitude/1072488907/
         dlon = lon2 - lon1
         dlat = lat2 - lat1
         a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
         c = 2 * asin(sqrt(a))
         r = 6371
         distancia = c*r
-        distancia = round(distancia, 3)
+        distancia = round(distancia)
         ponto['distancia'] = distancia
+        
+        
 
         if (ponto['distancia'] < distMax):
             pontos.append(ponto)
@@ -132,9 +137,9 @@ def getPontosDeColetaMaisProximo(pontosDeColeta, latitude, longitude, distMax):
     return pontos
 
 ## Exibe o banco de informações a partir de uma opção escolhida (plástico, vidro, etc.)
-def exibeInfoByopcao(numeroinf):
+def exibeInfoByopcao(numeroinfo):
     ## Variáveis
-    informacoes = getInfoByTipo(numeroinf)
+    informacoes = getInfoByTipo(numeroinfo)
     opcoesDisponiveis = getOpcoesByInformacoes(informacoes)
     opcaoEscolhida = 0
     opcaoValida = False
@@ -149,7 +154,7 @@ def exibeInfoByopcao(numeroinf):
         for info in informacoes:
             print("""   * """ + '[{id}] - {nome}'.format(id = info['id'], nome = info['descricao']))
 
-        print('\nNOTA: Se quiser voltar para o menu inicial, digite a palavra VOLTAR ;)')
+        print('\nSe quiser voltar para o menu inicial, digite a palavra VOLTAR ;)')
        
 
         opcaoEscolhida = input('\nO que deseja saber sobre o ' + str(info['tipo']) +', digite um numero: ')
@@ -165,12 +170,12 @@ def exibeInfoByopcao(numeroinf):
             return True
         else:
             opcaoValida = False
-            exibeMensagemErro('Opção inexistente. Tente novamente.')
+            exibeMensagemErro('Tente novamente.')
     
     ## Reseta variável 'opcaoValida'
     opcaoValida = False
 
-    ## Exibe a informação e solicita a localização (coordenadas) do usuário
+    ## Exibe a informação e solicita a latitude e longitude do usuário
     while not(opcaoValida):
         ## Variáveis
         latitude = ''
@@ -185,7 +190,7 @@ def exibeInfoByopcao(numeroinf):
     
         print('\n-------------------------------------------------------- VAMOS CONTINUAR? ----------------------------------------------------------------------\n')
         print('\nOpcoes:\n')
-        print('\nSe deseja descobrir qual o ponto de coleta mais próximo. Digite: SIM.  \nSe deseja voltar ao menu anterior. Digite: VOLTAR. \nSe deseja sair. Digite: SAIR.  \n\n')
+        print('\nSe deseja descobrir qual o ponto de coleta mais próximo. Digite: SIM.  \nSe deseja voltar ao menu anterior. Digite: VOLTAR. \nSe deseja encerrar. Digite: SAIR.  \n\n')
         opcao_escolha = input('\nDigite sua escolha: ')
 
       
@@ -219,12 +224,12 @@ def exibeInfoByopcao(numeroinf):
                     input('\nPressione qualquer tecla para voltar ao menu inicial!\n')
                 except:
                     opcaoValida = False
-                    exibeMensagemErro('Certifique-se de digitar os dados corretamente.')
+                    exibeMensagemErro(' Informe os dados corretamente.')
             else:
                 opcaoValida = False
-                exibeMensagemErro('Certifique-se de digitar os dados corretamente.')
+                exibeMensagemErro(' Informe os dados corretamente.')
         if VOLTAR == opcao_escolha:
-            exibeInfoByopcao(numeroinf)
+            exibeInfoByopcao(numeroinfo)
             return False
         if SAIR == opcao_escolha:
             exibeMenuFim()
@@ -241,12 +246,12 @@ def exibeInfo(info):
 def digiteDistancia():
     return input('Qual a distância máxima (em KM) você está disposto a percorrer pelo ponto: ')
 
-## Exibe uma mensagem de erro no console
+## Exibe uma mensagem de erro 
 def exibeMensagemErro(msg):
     limpaConsole()
-    print('Ops... Algo deu errado :(')
-    print('[ERRO] => ' + str(msg))
-    print('\nPressione qualquer tecla para continuar')
+    print('Ops... Tente mais uma vez ')
+    print(str(msg))
+    print('\nPressione qualquer tecla para voltar')
     input()
     
 ## Limpa o console
@@ -265,9 +270,9 @@ def getInfo():
 
             'tipo': 'plastico', },
 
-        { 'id': 2, 'descricao': 'Forma de reutilizar', 
+        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
 
-            'obs': 'Aqui vai a Forma de reutilizar', 
+            'obs': 'Aqui vai objetos para reutilizar', 
 
             'tipo': 'plastico' },
 
@@ -283,7 +288,7 @@ def getInfo():
             'obs': 'caract do metal', 
             'tipo': 'metal' },
 
-        { 'id': 2, 'descricao': 'Forma de reutilizar', 
+        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
             'obs': '', 
             'tipo': 'metal' },
 
@@ -299,7 +304,7 @@ def getInfo():
             'obs': '', 
             'tipo': 'vidro' },
 
-        { 'id': 2, 'descricao': 'Forma de reutilizar', 
+        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
             'obs': '', 
             'tipo': 'vidro' },
 
@@ -315,7 +320,7 @@ def getInfo():
             'obs': '', 
             'tipo': 'papel' },
 
-        { 'id': 2, 'descricao': 'Forma de reutilizar', 
+        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
             'obs': '', 
             'tipo': 'papel' },
 
@@ -328,11 +333,11 @@ def getInfo():
             'tipo': 'papel' },
 
         { 'id': 1, 'descricao': 'Caracteristica', 
-            'obs': '', 
+            'obs': '\n\nÉ considerado lixo eletrônico todo resíduo material oriundo do descarte de equipamentos eletrônicos.', 
             'tipo': 'eletronico' },
 
-        { 'id': 2, 'descricao': 'Forma de reutilizar', 
-            'obs': 'eletronico', 
+        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
+            'obs': '\n\nMonitores de computador, telefones celulares e baterias, computadores, televisores, câmeras fotográficas, impressoras, radios e aparelho de som, entre outros equipamentos eletrônicos comuns.', 
             'tipo': 'eletronico' },
 
         { 'id': 3, 'descricao': 'Forma de utilizar', 
@@ -340,21 +345,29 @@ def getInfo():
             'tipo': 'eletronico' },
 
         { 'id': 4, 'descricao': 'Composiçao', 
-            'obs': '', 
+            'obs': '\n\nO lixo eletrônico é produzido por materiais de origem inorgânica, por exemplo: cobre, alumínio, metais pesados (mercúrio, cádmio, berílio e chumbo)', 
             'tipo': 'eletronico' },
 
     ]
 
-## Retorna um array/vetor contendo todos os pontos de coleta disponíveis
+## Retorna um array/vetor contendo os pontos de coleta disponíveis em Campinas/SP
 def getPontosDeColeta():
     return [
-        { 'id': 1, 'nome': 'Ponto Verde - Vila Costa e Silva', 'endereco': 'R. Saldanha da Gama, 77 - Vila Costa e Silva, Campinas - SP, 13081-000', 'latitude': -22.856155, 'longitude': -47.068549, 'categorias': ['plastico'] },
-        { 'id': 2, 'nome': 'Ecoponto Jardim Pacaembu', 'endereco': 'R. Dante Suriani, 2-382 - Chácara Cneo, Campinas - SP, 13033-160', 'latitude': -22.904529, 'longitude': -47.105434, 'categorias': ['plastico'] },
-        { 'id': 3, 'nome': 'HT Papéis Barão - Coleta e reciclagem de resíduos', 'endereco': 'Av. Ruy Rodrigues, 394 - Jardim Novo Campos Eliseos, Campinas - SP, 13060-192', 'latitude': -22.934023, 'longitude': -47.105661, 'categorias': ['plastico', 'papel'] },
-        { 'id': 5, 'nome': 'Ecoponto Vila União', 'endereco': 'R. Manoel Gomes Ferreira, 42 - Parque Tropical, Campinas - SP, 13060-523', 'latitude': -22.936016, 'longitude': -47.118061, 'categorias': ['plastico'] },
-        { 'id': 6, 'nome': 'Ecoponto / Ponto Verde', 'endereco': 'Av. Santa Isabel, 2300 - Barão Geraldo, Campinas - SP, 13084-012', 'latitude': -22.817244, 'longitude': -47.100531, 'categorias': ['papel'] },
-        { 'id': 7, 'nome': 'GMV Recycle', 'endereco': 'Rod. Lix da Cunha, 911 - Jardim Nova America, Campinas - SP, 13070-715', 'latitude': -22.898166, 'longitude': -47.093476, 'categorias': ['papel', 'eletronico'] },
-        { 'id': 8, 'nome': 'Ecoponto Jardim Eulina',  'endereco': 'Av. Mal. Rondon, 2296-2382 - Jardim Chapadão, Campinas - SP', 'latitude': -22.891751, 'longitude': -47.100940, 'categorias': ['papel', 'vidro', 'plastico', 'metal'] },
-        { 'id': 9, 'nome': 'Reversis - Reciclagem de Eletrônicos e Informática',  'endereco': 'R. da Abolição, 1900 - Pte. Preta, Campinas - SP, 13041-445', 'latitude': -22.926823, 'longitude': -47.042984, 'categorias': ['eletronico'] },
-        { 'id': 10, 'nome': 'Cooperativa de Recicláveis Santa Genebra',  'endereco': 'R. Estácio de Sá, 577 - Jardim Santa Genebra, Campinas - SP, 13084-751', 'latitude': -22.852778, 'longitude': -47.074819, 'categorias': ['papel', 'vidro', 'plastico', 'metal'] }
+        { 'id': 1, 'nome': 'Ecoponto - Parque Itajaí', 'endereço': 'R. Celso Soares Couto, S/N - Conj. Hab. Parque Itajaí, Campinas - SP', 'latitude': -22.96143, 'longitude': -47.18951, 'categorias': ['plastico', 'papel', 'vidro', 'metal', 'eletronico'] },
+        { 'id': 2, 'nome': 'Ponto Verde - Vila Costa e Silva', 'endereco': 'R. Saldanha da Gama, 77 - Vila Costa e Silva, Campinas - SP, 13081-000', 'latitude': -22.856155, 'longitude': -47.068549, 'categorias': ['plastico', 'papel', 'vidro', 'metal', 'eletronico'] },
+        { 'id': 3, 'nome': 'Ecoponto - Jardim São Gabriel', 'endereco': 'R. José Martins Lourenço, 140-284 - Jardim São Gabriel, Campinas - SP, 13054-310', 'latitude': -22.94198, 'longitude': -47.02982, 'categorias': ['papel', 'metal', 'vidro', 'plastico'] },
+        { 'id': 4, 'nome': 'Ecoponto - Jardim Pacaembu', 'endereco': 'R. Dante Suriani, 2-382 - Chácara Cneo, Campinas - SP, 13033-160', 'latitude': -22.904529, 'longitude': -47.105434, 'categorias': ['plastico', 'papel', 'vidro', 'metal'] },
+        { 'id': 5, 'nome': 'Ecoponto - Jardim Paranapanema', 'endereço': 'R. Serra dÁgua, 326 - Jardim São Fernando, Campinas - SP, 13100-370', 'latitude': -22.91570, 'longitude': -47.03747, 'categorias': ['plastico', 'papel', 'vidro', 'metal']},
+        { 'id': 6, 'nome': 'Ecoponto -  Vila Campos Sales', 'endereço': 'Av. São José dos Campos, S/N - Vila Campos Sales, Campinas - SP, 13040-565', 'latitude': -22.94837, 'longitude': -47.05779, 'categorias': ['papel', 'plastico', 'vidro', 'metal', 'eletronico']},
+        { 'id': 7, 'nome': 'Ecoponto - Parque São Jorge', 'endereço': 'R. Plácida Pretini, 196-270 - Parque São Jorge, Campinas - SP, 13064-812', 'latitude': -22.89579, 'longitude': -47.15631, 'categorias': ['papel', 'plastico', 'vidro', 'metal']},
+        { 'id': 8, 'nome': 'HT Papéis Barão - Coleta e reciclagem de resíduos', 'endereco': 'Av. Ruy Rodrigues, 394 - Jardim Novo Campos Eliseos, Campinas - SP, 13060-192', 'latitude': -22.934023, 'longitude': -47.105661, 'categorias': ['plastico', 'papel'] },
+        { 'id': 9, 'nome': 'Ecoponto -  Vila União', 'endereco': 'R. Manoel Gomes Ferreira, 42 - Parque Tropical, Campinas - SP, 13060-523', 'latitude': -22.936016, 'longitude': -47.118061, 'categorias': ['papel', 'plastico', 'vidro', 'metal'] },
+        { 'id': 10, 'nome': 'Ecoponto / Ponto Verde', 'endereco': 'Av. Santa Isabel, 2300 - Barão Geraldo, Campinas - SP, 13084-012', 'latitude': -22.817244, 'longitude': -47.100531, 'categorias': ['papel', 'plastico', 'vidro', 'metal'] },
+        { 'id': 11, 'nome': 'GMV Recycle', 'endereco': 'Rod. Lix da Cunha, 911 - Jardim Nova America, Campinas - SP, 13070-715', 'latitude': -22.898166, 'longitude': -47.093476, 'categorias': ['papel', 'eletronico'] },
+        { 'id': 12, 'nome': 'Ecoponto -  Jardim Eulina',  'endereco': 'Av. Mal. Rondon, 2296-2382 - Jardim Chapadão, Campinas - SP', 'latitude': -22.891751, 'longitude': -47.100940, 'categorias': ['papel', 'vidro', 'plastico', 'metal'] },
+        { 'id': 13, 'nome': 'Reversis - Reciclagem de Eletrônicos e Informática',  'endereco': 'R. da Abolição, 1900 - Pte. Preta, Campinas - SP, 13041-445', 'latitude': -22.926823, 'longitude': -47.042984, 'categorias': ['eletronico'] },
+        { 'id': 14, 'nome': 'Ponto Verde - Carlos Grimaldi', 'endereço': 'R. Cōnego Pedro Bonhomme, 2424 - Jardim Bela Vista, Campinas - SP, 13077-003', 'latitude': -22.87611, 'longitude': -47.03918, 'categorias': ['papel', 'vidro', 'plastico', 'metal']},
+        { 'id': 15, 'nome': 'Cooperativa de Recicláveis Santa Genebra',  'endereco': 'R. Estácio de Sá, 577 - Jardim Santa Genebra, Campinas - SP, 13084-751', 'latitude': -22.852778, 'longitude': -47.074819, 'categorias': ['papel', 'vidro', 'plastico', 'metal'] }
     ]
+
+

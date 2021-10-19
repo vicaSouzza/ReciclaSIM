@@ -1,8 +1,8 @@
-## Importando arquivo funções (functions.py)
+## Importando arquivo myMethodos
 from myMethods import exibeInfoByopcao, limpaConsole, exibeMenuInicial, getOpcoesMenuInicial, exibeMensagemErro, exibeMenuFim
 
 if __name__ == "__main__":
-    ## Constantes
+    
     ENCERRAR = 6
 
     ## Variáveis
@@ -29,7 +29,7 @@ if __name__ == "__main__":
                 limpaConsole()
                 exibeMenuFim()    
         else:
-            textoErro = 'Opção inexistente.' if len(str(opcaoEscolhida)) > 0 else 'Digite alguma coisa.'
-            exibeMensagemErro(textoErro + '. Tente novamente.')
+            textoErro = 'Não temos essa opção.' if len(str(opcaoEscolhida)) > 0 else 'Digite alguma coisa.'
+            exibeMensagemErro(textoErro)
 
 
