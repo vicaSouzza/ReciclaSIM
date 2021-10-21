@@ -1,5 +1,5 @@
 ## Importando arquivo myMethodos
-from myMethods import exibeInfoByopcao, limpaConsole, exibeMenuInicial, getOpcoesMenuInicial, exibeMensagemErro, exibeMenuFim
+from methods import exibeInfoByopcao, limpaConsole, exibeMenuInicial, getOpcoesMenuInicial, exibeMensagemErro, exibeMenuFim
 
 if __name__ == "__main__":
     
