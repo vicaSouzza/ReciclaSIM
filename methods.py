@@ -7,6 +7,8 @@ VOLTAR = 'VOLTAR'
 SIM = 'SIM'
 SAIR = 'SAIR'
 ENCERRAR = 6
+ERROR = 'Opcao invalida'
+ERRORDIG = 'Digite alguma coisa'
 
 ## Exibe o menu principal  e solicita ao usuário a escolha de uma das opções
 def exibeMenuInicial():
@@ -146,7 +148,7 @@ def exibeInfoByopcao(numeroinfo):
 
     ## Solicita ao usuário qual informação ele gostaria de saber 
     while not(opcaoValida):
-        limpaConsole()
+        cleanConsole()
 
         print('Exibindo as opções de informações sobre o material escolhido...\n')
 
@@ -182,7 +184,7 @@ def exibeInfoByopcao(numeroinfo):
         pontosDeColetaDisponiveis = getPontosDeColetaByCategoria(infoEscolhida['tipo'])
         pontosDeColetaMaisProximos = {}
 
-        limpaConsole()
+        cleanConsole()
 
         
         exibeInfo(infoEscolhida)
@@ -209,7 +211,7 @@ def exibeInfoByopcao(numeroinfo):
                 
                     pontosDeColetaMaisProximos = getPontosDeColetaMaisProximo(pontosDeColetaDisponiveis, latitude, longitude, distMax)
                     
-                    limpaConsole()
+                    cleanConsole()
 
                     if pontosDeColetaMaisProximos[0]['distancia'] <= distMax:
                         print('Os pontos mais próximos são esses: \n')
@@ -220,7 +222,7 @@ def exibeInfoByopcao(numeroinfo):
                         print(f'Que pena!! não foi encontrado nenhum ponto de coleta no raio de {distMax:.2f} km. O local mais próximo encontra-se logo abaixo: ')
                         print('\nDistância: ', format(pontosDeColetaMaisProximos[0]['distancia'], '.2f'), ' Km\nNome: ', pontosDeColetaMaisProximos[0]['nome'], '\nEndereco: ', pontosDeColetaMaisProximos[0]['endereco'], '\n')
 
-                    input('\nPressione qualquer tecla para voltar ao menu inicial!\n')
+                    input('\nPress any key go to back!\n')
                 except:
                     opcaoValida = False
                     exibeMensagemErro(' Informe os dados corretamente.')
@@ -247,14 +249,14 @@ def digiteDistancia():
 
 ## Exibe uma mensagem de erro 
 def exibeMensagemErro(msg):
-    limpaConsole()
+    cleanConsole()
     print('Ops... Tente mais uma vez ')
     print(str(msg))
     print('\nPressione qualquer tecla para voltar')
     input()
     
 ## Limpa o console
-def limpaConsole():
+def cleanConsole():
     os.system('clear') ## windows
     os.system('cls') ## Executa o comando 'cls' no console no linux
 
@@ -377,3 +379,30 @@ def getPontosDeColeta():
     ]
 
 
+## Funçao main
+
+if __name__ == "__main__" :
+
+    inicio = True
+    opcao = 0
+
+    while inicio:
+
+        cleanConsole()
+        exibeMenuInicial()
+
+        opcao = input('\n Para opcao desejada, digite um numero do menu: ')
+        ## Conversão para inteiro
+        opcao = int(opcao) if opcao.isnumeric() else str(opcao)
+
+        if getOpcoesMenuInicial().count(opcao) > 0:
+            inicio = False
+
+            if opcao != ENCERRAR: 
+                inicio = exibeInfoByopcao(opcao)
+            else: 
+                cleanConsole()
+                exibeMenuFim()
+        else: 
+            erroMsg = ERROR if len(str(opcao)) > 0 else ERRORDIG
+            exibeMensagemErro(erroMsg)
