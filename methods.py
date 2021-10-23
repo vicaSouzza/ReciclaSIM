@@ -2,6 +2,10 @@
 import os
 from math import radians, cos, sin, asin, sqrt
 
+from bancodedados import bancoDadosInformacoes, bancoDadosPontoColeta
+from colorama  import Fore
+from colorama  import Style
+
 ## Constantes
 VOLTAR = 'VOLTAR'
 SIM = 'SIM'
@@ -10,34 +14,35 @@ ENCERRAR = 6
 ERROR = 'Opcao invalida'
 ERRORDIG = 'Digite alguma coisa'
 
+
 ## Exibe o menu principal  e solicita ao usuário a escolha de uma das opções
 def exibeMenuInicial():
   
     print(
-    r'''                                                                                                                                                                           
-    
+    fr'''                                                                                                                                                                           
+    {Fore.LIGHTMAGENTA_EX}
      ___        _    _      ___ ___ __  __ 
     | _ \___ __(_)__| |__ _/ __|_ _|  \/  |
     |   / -_) _| / _| / _` \__ \| || |\/| |
     |_|_\___\__|_\__|_\__,_|___/___|_|  |_|
-                                            
+    {Style.RESET_ALL}                                 
                                                                 
     ''') 
-    print('''\nO objetivo deste programa é facilitar o processo de reciclagem auxiliando na identificação do material reciclável e depois na localização de um ponto de coleta. VAMOS COMEÇAR? 
-    É muito facil, siga minhas instruções.
-            
+    print(f'''\n\n\n {Fore.GREEN}*** Recicle seu material, indetifique as caracteristicas e encontre um Ponto de Coleta mais proximo do endereço desejado ***{Style.RESET_ALL}\n\n
+            {Fore.YELLOW}
             [1] - Plástico
             [2] - Metal
             [3] - Vidro
             [4] - Papel
             [5] - Eletrônicos
-            [6] - Encerrar o programa''')
+            [6] - Encerrar o programa
+            {Style.RESET_ALL}''')
 
 def exibeMenuFim():
    print(
         '''
-            Encerrando...
-            Obrigado por utilizar a nossa solução!
+            Fim...
+            Obrigado por usar o ReclicaSIM!
 
             Desenvolvido por:
                 - VITÓRIA SOUZA
@@ -56,17 +61,16 @@ def getOpcoesByInformacoes(info):
 
     return opcoesDisponiveis
 
-## Converte uma opção de menu (1, 2, 3, etc.) para um tipo específico (papel, vidro, etc.)
-def convertOpcaoByTipo(opcao):
-    if opcao == 1:
+def opt(case):
+    if case == 1:
         return 'plastico'
-    elif opcao == 2:
+    if case == 2:
         return 'metal'
-    elif opcao == 3:
+    if case == 3:
         return 'vidro'
-    elif opcao == 4:
+    if case == 4:
         return 'papel'
-    elif opcao == 5:
+    if case == 5:
         return 'eletronico'
     else:
         return ''
@@ -75,7 +79,7 @@ def convertOpcaoByTipo(opcao):
 def getPontosDeColetaByCategoria(categoria):
     pontosDeColeta = []
 
-    for ponto in getPontosDeColeta():
+    for ponto in bancoDadosPontoColeta():
         for categoriaPonto in ponto['categorias']:
             if categoriaPonto == categoria:
                 pontosDeColeta.append(ponto)
@@ -85,8 +89,8 @@ def getPontosDeColetaByCategoria(categoria):
 ## Retorna um array/vetor contendo as opções de informações sobre o material escolhido (plástico, vidro, etc.)
 def getInfoByTipo(opcao):
     informacoes = []
-    tipo = convertOpcaoByTipo(opcao)
-    for info in getInfo():
+    tipo = opt(opcao)
+    for info in bancoDadosInformacoes():
         if info['tipo'] == tipo:
             informacoes.append(info)
 
@@ -222,7 +226,7 @@ def exibeInfoByopcao(numeroinfo):
                         print(f'Que pena!! não foi encontrado nenhum ponto de coleta no raio de {distMax:.2f} km. O local mais próximo encontra-se logo abaixo: ')
                         print('\nDistância: ', format(pontosDeColetaMaisProximos[0]['distancia'], '.2f'), ' Km\nNome: ', pontosDeColetaMaisProximos[0]['nome'], '\nEndereco: ', pontosDeColetaMaisProximos[0]['endereco'], '\n')
 
-                    input('\nPress any key go to back!\n')
+                    input('\nPressione qualquer tecla para voltar!\n')
                 except:
                     opcaoValida = False
                     exibeMensagemErro(' Informe os dados corretamente.')
@@ -260,144 +264,24 @@ def cleanConsole():
     os.system('clear') ## windows
     os.system('cls') ## Executa o comando 'cls' no console no linux
 
-## Retorna um array/vetor contendo todas as informarções que podem ser coletadas do material escolhido
-def getInfo():
-    return  [
-        { 'id': 1, 'descricao': 'Caracteristica', 
-            'obs': 
-            '\n\n\nCaracteristica: Extremamente fáceis de moldar, podem tomar as mais diversas formas. ' +
-            'O plástico pode ser rígido ou flexível, transparente ou opaco, resistente à humidade ou ' +
-            'solúvel em água - as possibilidades são praticamente infinitas.', 
-            'tipo': 'plastico' },
-
-        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
-            'obs': 
-            '\n\n\n------------------- Aqui estão alguns dos objetos que podem ser reutilizados:',
-            'tipo': 'plastico' },
-
-        { 'id': 3, 'descricao': 'Forma de reutilizar', 
-            'obs': 'Aqui vai a Forma de reutilizar', 
-            'tipo': 'plastico' },
-
-        { 'id': 4, 'descricao': 'Composiçao', 
-            'obs': 'Aqui vai a Composição', 
-            'tipo': 'plastico' },
-
-        { 'id': 1, 'descricao': 'Caracteristica', 
-            'obs': 'caract do metal', 
-            'tipo': 'metal' },
-
-        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
-            'obs': ''
-            '\n\n\n------------------- Aqui estão alguns dos objetos que podem ser reutilizados:',
-            'tipo': 'metal' },
-
-        { 'id': 3, 'descricao': 'Forma de reutilizar', 
-            'obs': 'metal', 
-            'tipo': 'metal' },
-
-        { 'id': 4, 'descricao': 'Composiçao', 
-            'obs': '', 
-            'tipo': 'metal' },
-        
-        { 'id': 1, 'descricao': 'Caracteristica', 
-            'obs': '', 
-            'tipo': 'vidro' },
-
-        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
-            'obs': ''
-            '\n\n\n------------------- Aqui estão alguns dos objetos que podem ser reutilizados:',
-            'tipo': 'vidro' },
-
-        { 'id': 3, 'descricao': 'Forma de reutilizar', 
-            'obs': 'vidro', 
-            'tipo': 'vidro' },
-
-        { 'id': 4, 'descricao': 'Composiçao', 
-            'obs': '', 
-            'tipo': 'vidro' },
-        
-        { 'id': 1, 'descricao': 'Caracteristica', 
-            'obs': '', 
-            'tipo': 'papel' },
-
-        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
-            'obs': 
-            '\n\n\n------------------- Aqui estão alguns dos objetos que podem ser reutilizados:', 
-            'tipo': 'papel' },
-
-        { 'id': 3, 'descricao': 'Forma de reutilizar', 
-            'obs': 'papel', 
-            'tipo': 'papel' },
-
-        { 'id': 4, 'descricao': 'Composiçao', 
-            'obs': '', 
-            'tipo': 'papel' },
-
-        { 'id': 1, 'descricao': 'Caracteristica', 
-            'obs': '\n\nÉ considerado lixo eletrônico todo resíduo material oriundo do descarte de equipamentos eletrônicos.', 
-            'tipo': 'eletronico' },
-
-        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
-            'obs':
-            '\n\n\n------------------- Aqui estão alguns dos objetos que podem ser reutilizados:' 
-            '\n\n\nMonitores de computador, telefones celulares e baterias, computadores, carregadores, fones de ouvido, ' +  
-            'televisores, câmeras fotográficas, impressoras, tablets, mouses, teclados, radios e aparelho de som,' +
-            'eletrodomésticos de grande porte como, geladeira, ' +
-            'fogão, maquina de lavar roupa e louça etc.',
-            'tipo': 'eletronico' },
-
-        { 'id': 3, 'descricao': 'Forma de reutilizar', 
-            'obs': '', 
-            'tipo': 'eletronico' },
-
-        { 'id': 4, 'descricao': 'Composiçao', 
-            'obs': '\n\nO lixo eletrônico é produzido por materiais de origem inorgânica, como por exemplo:' + 
-            'cobre, alumínio, metais pesados (mercúrio, cádmio, berílio e chumbo)', 
-            'tipo': 'eletronico' },
-
-    ]
-
-## Retorna um array/vetor contendo os pontos de coleta disponíveis em Campinas/SP
-def getPontosDeColeta():
-    return [
-        { 'id': 1, 'nome': 'Ecoponto - Parque Itajaí', 'endereco': 'R. Celso Soares Couto, S/N - Conj. Hab. Parque Itajaí, Campinas - SP', 'latitude': -22.96143, 'longitude': -47.18951, 'categorias': ['plastico', 'papel', 'vidro', 'metal'] },
-        { 'id': 2, 'nome': 'Ponto Verde - Vila Costa e Silva', 'endereco': 'R. Saldanha da Gama, 77 - Vila Costa e Silva, Campinas - SP, 13081-000', 'latitude': -22.856155, 'longitude': -47.068549, 'categorias': ['plastico', 'papel', 'vidro', 'metal', 'eletronico'] },
-        { 'id': 3, 'nome': 'Ecoponto - Jardim São Gabriel', 'endereco': 'R. José Martins Lourenço, 140-284 - Jardim São Gabriel, Campinas - SP, 13054-310', 'latitude': -22.94198, 'longitude': -47.02982, 'categorias': ['papel', 'metal', 'vidro', 'plastico'] },
-        { 'id': 4, 'nome': 'Ecoponto - Jardim Pacaembu', 'endereco': 'R. Dante Suriani, 2-382 - Chácara Cneo, Campinas - SP, 13033-160', 'latitude': -22.904529, 'longitude': -47.105434, 'categorias': ['plastico', 'papel', 'vidro', 'metal'] },
-        { 'id': 5, 'nome': 'Ecoponto - Jardim Paranapanema', 'endereco': 'R. Serra dÁgua, 326 - Jardim São Fernando, Campinas - SP, 13100-370', 'latitude': -22.91570, 'longitude': -47.03747, 'categorias': ['plastico', 'papel', 'vidro', 'metal']},
-        { 'id': 6, 'nome': 'Ecoponto -  Vila Campos Sales', 'endereco': 'Av. São José dos Campos, S/N - Vila Campos Sales, Campinas - SP, 13040-565', 'latitude': -22.94837, 'longitude': -47.05779, 'categorias': ['papel', 'plastico', 'vidro', 'metal', 'eletronico']},
-        { 'id': 7, 'nome': 'Ecoponto - Parque São Jorge', 'endereco': 'R. Plácida Pretini, 196-270 - Parque São Jorge, Campinas - SP, 13064-812', 'latitude': -22.89579, 'longitude': -47.15631, 'categorias': ['papel', 'plastico', 'vidro', 'metal']},
-        { 'id': 8, 'nome': 'HT Papéis Barão - Coleta e reciclagem de resíduos', 'endereco': 'Av. Ruy Rodrigues, 394 - Jardim Novo Campos Eliseos, Campinas - SP, 13060-192', 'latitude': -22.934023, 'longitude': -47.105661, 'categorias': ['plastico', 'papel'] },
-        { 'id': 9, 'nome': 'Ecoponto -  Vila União', 'endereco': 'R. Manoel Gomes Ferreira, 42 - Parque Tropical, Campinas - SP, 13060-523', 'latitude': -22.936016, 'longitude': -47.118061, 'categorias': ['papel', 'plastico', 'vidro', 'metal'] },
-        { 'id': 10, 'nome': 'Ecoponto / Ponto Verde', 'endereco': 'Av. Santa Isabel, 2300 - Barão Geraldo, Campinas - SP, 13084-012', 'latitude': -22.817244, 'longitude': -47.100531, 'categorias': ['papel', 'plastico', 'vidro', 'metal'] },
-        { 'id': 11, 'nome': 'GMV Recycle', 'endereco': 'Rod. Lix da Cunha, 911 - Jardim Nova America, Campinas - SP, 13070-715', 'latitude': -22.898166, 'longitude': -47.093476, 'categorias': ['papel', 'eletronico'] },
-        { 'id': 12, 'nome': 'Ecoponto -  Jardim Eulina',  'endereco': 'Av. Mal. Rondon, 2296-2382 - Jardim Chapadão, Campinas - SP', 'latitude': -22.891751, 'longitude': -47.100940, 'categorias': ['papel', 'vidro', 'plastico', 'metal'] },
-        { 'id': 13, 'nome': 'Reversis - Reciclagem de Eletrônicos e Informática',  'endereco': 'R. da Abolição, 1900 - Pte. Preta, Campinas - SP, 13041-445', 'latitude': -22.926823, 'longitude': -47.042984, 'categorias': ['eletronico'] },
-        { 'id': 14, 'nome': 'Ponto Verde - Carlos Grimaldi', 'endereco': 'R. Cōnego Pedro Bonhomme, 2424 - Jardim Bela Vista, Campinas - SP, 13077-003', 'latitude': -22.87611, 'longitude': -47.03918, 'categorias': ['papel', 'vidro', 'plastico', 'metal']},
-        { 'id': 15, 'nome': 'Cooperativa de Recicláveis Santa Genebra',  'endereco': 'R. Estácio de Sá, 577 - Jardim Santa Genebra, Campinas - SP, 13084-751', 'latitude': -22.852778, 'longitude': -47.074819, 'categorias': ['papel', 'vidro', 'plastico', 'metal'] }
-    ]
-
-
 ## Funçao main
-
 if __name__ == "__main__" :
 
     inicio = True
     opcao = 0
-
+    
+  
     while inicio:
 
         cleanConsole()
         exibeMenuInicial()
 
-        opcao = input('\n Para opcao desejada, digite um numero do menu: ')
+        opcao = input(f'\n {Fore.BLUE}Para opcao desejada, digite um numero do menu: {Style.RESET_ALL}')
         ## Conversão para inteiro
         opcao = int(opcao) if opcao.isnumeric() else str(opcao)
 
         if getOpcoesMenuInicial().count(opcao) > 0:
             inicio = False
-
             if opcao != ENCERRAR: 
                 inicio = exibeInfoByopcao(opcao)
             else: 
