@@ -3,8 +3,8 @@ import os
 from math import radians, cos, sin, asin, sqrt
 
 from bancodedados import bancoDadosInformacoes, bancoDadosPontoColeta
-from colorama  import Fore
-from colorama  import Style
+
+
 
 ## Constantes
 VOLTAR = 'VOLTAR'
@@ -19,24 +19,24 @@ ERRORDIG = 'Digite alguma coisa'
 def exibeMenuInicial():
   
     print(
-    fr'''                                                                                                                                                                           
-    {Fore.LIGHTMAGENTA_EX}
+    r'''                                                                                                                                                                           
+    
      ___        _    _      ___ ___ __  __ 
     | _ \___ __(_)__| |__ _/ __|_ _|  \/  |
     |   / -_) _| / _| / _` \__ \| || |\/| |
     |_|_\___\__|_\__|_\__,_|___/___|_|  |_|
-    {Style.RESET_ALL}                                 
+                                     
                                                                 
     ''') 
-    print(f'''\n\n\n {Fore.GREEN}*** Recicle seu material, indetifique as caracteristicas e encontre um Ponto de Coleta mais proximo do endereço desejado ***{Style.RESET_ALL}\n\n
-            {Fore.YELLOW}
+    print('''\n\n\n *** Recicle seu material, identifique as características e encontre um Ponto de Coleta mais proximo do endereço desejado ***\n\n
+           
             [1] - Plástico
             [2] - Metal
             [3] - Vidro
             [4] - Papel
             [5] - Eletrônicos
             [6] - Encerrar o programa
-            {Style.RESET_ALL}''')
+            ''')
 
 def exibeMenuFim():
    print(
@@ -45,7 +45,7 @@ def exibeMenuFim():
             Obrigado por usar o ReclicaSIM!
 
             Desenvolvido por:
-                - VITÓRIA SOUZA
+                - 
         ''')
     
 ## Obtem um array/vetor com o número das opções disponíveis
@@ -276,7 +276,7 @@ if __name__ == "__main__" :
         cleanConsole()
         exibeMenuInicial()
 
-        opcao = input(f'\n {Fore.BLUE}Para opcao desejada, digite um numero do menu: {Style.RESET_ALL}')
+        opcao = input('\n Para opcao desejada, digite um numero do menu: ')
         ## Conversão para inteiro
         opcao = int(opcao) if opcao.isnumeric() else str(opcao)
 

@@ -10,12 +10,12 @@ def bancoDadosInformacoes():
             'solúvel em água - as possibilidades são praticamente infinitas.', 
             'tipo': 'plastico' },
 
-        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
+        { 'id': 2, 'descricao': 'Tipos de material', 
             'obs': 
-            '\n\n\n------------------- Aqui estão alguns dos objetos que podem ser reutilizados:',
+            '\n\n\n------------------- Aqui estão alguns dos materiais que podem ser reutilizados:',
             'tipo': 'plastico' },
 
-        { 'id': 3, 'descricao': 'Forma de reutilizar', 
+        { 'id': 3, 'descricao': 'Formas de reutilizar e utilizar', 
             'obs': 'Aqui vai a Forma de reutilizar', 
             'tipo': 'plastico' },
 
@@ -23,33 +23,43 @@ def bancoDadosInformacoes():
             'obs': 'Aqui vai a Composição', 
             'tipo': 'plastico' },
 
+        { 'id': 5, 'descricao': 'Cuidados', 
+            'obs': 
+            '\n\n\n',
+            'tipo': 'plastico' },
+
         { 'id': 1, 'descricao': 'Caracteristica', 
             'obs': 'caract do metal', 
             'tipo': 'metal' },
 
-        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
+        { 'id': 2, 'descricao': 'Tipos de material', 
             'obs': ''
             '\n\n\n------------------- Aqui estão alguns dos objetos que podem ser reutilizados:',
             'tipo': 'metal' },
 
-        { 'id': 3, 'descricao': 'Forma de reutilizar', 
+        { 'id': 3, 'descricao': 'Formas de reutilizar e utilizar', 
             'obs': 'metal', 
             'tipo': 'metal' },
 
         { 'id': 4, 'descricao': 'Composiçao', 
             'obs': '', 
             'tipo': 'metal' },
+
+        { 'id': 5, 'descricao': 'Cuidados', 
+            'obs': 
+            '\n\n\n',
+            'tipo': 'metal' },    
         
         { 'id': 1, 'descricao': 'Caracteristica', 
             'obs': '', 
             'tipo': 'vidro' },
 
-        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
+        { 'id': 2, 'descricao': 'Tipos de material', 
             'obs': ''
             '\n\n\n------------------- Aqui estão alguns dos objetos que podem ser reutilizados:',
             'tipo': 'vidro' },
 
-        { 'id': 3, 'descricao': 'Forma de reutilizar', 
+        { 'id': 3, 'descricao': 'Formas de reutilizar e utilizar', 
             'obs': 'vidro', 
             'tipo': 'vidro' },
 
@@ -57,16 +67,21 @@ def bancoDadosInformacoes():
             'obs': '', 
             'tipo': 'vidro' },
         
+        { 'id': 5, 'descricao': 'Cuidados', 
+            'obs': 
+            '\n\n\n',
+            'tipo': 'vidro' },
+        
         { 'id': 1, 'descricao': 'Caracteristica', 
             'obs': '', 
             'tipo': 'papel' },
 
-        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
+        { 'id': 2, 'descricao': 'Tipos de material', 
             'obs': 
             '\n\n\n------------------- Aqui estão alguns dos objetos que podem ser reutilizados:', 
             'tipo': 'papel' },
 
-        { 'id': 3, 'descricao': 'Forma de reutilizar', 
+        { 'id': 3, 'descricao': 'Formas de reutilizar e utilizar', 
             'obs': 'papel', 
             'tipo': 'papel' },
 
@@ -74,26 +89,41 @@ def bancoDadosInformacoes():
             'obs': '', 
             'tipo': 'papel' },
 
+        { 'id': 5, 'descricao': 'Cuidados', 
+            'obs': 
+            '\n\n\n',
+            'tipo': 'papel' },
+
         { 'id': 1, 'descricao': 'Caracteristica', 
             'obs': '\n\nÉ considerado lixo eletrônico todo resíduo material oriundo do descarte de equipamentos eletrônicos.', 
             'tipo': 'eletronico' },
 
-        { 'id': 2, 'descricao': 'Objetos para reutilizar', 
+        { 'id': 2, 'descricao': 'Tipos de material', 
             'obs':
-            '\n\n\n------------------- Aqui estão alguns dos objetos que podem ser reutilizados:' 
+            '\n\n\n------------------- Aqui estão alguns dos materiais que podem ser reciclados:' 
             '\n\n\nMonitores de computador, telefones celulares e baterias, computadores, carregadores, fones de ouvido, ' +  
             'televisores, câmeras fotográficas, impressoras, tablets, mouses, teclados, radios e aparelho de som,' +
-            'eletrodomésticos de grande porte como, geladeira, ' +
-            'fogão, maquina de lavar roupa e louça etc.',
+            'batedeiras, liquidificadores, ferros elétricos, furadeiras, secadores de cabelo, ' +
+            'aspiradores de pó, cafeteiras, eletrodomésticos de grande porte como, geladeira, fogão, '+
+            'maquina de lavar roupa e louça etc.',
             'tipo': 'eletronico' },
 
-        { 'id': 3, 'descricao': 'Forma de reutilizar', 
+        { 'id': 3, 'descricao': 'Formas de reutilizar e utilizar', 
             'obs': '', 
             'tipo': 'eletronico' },
 
         { 'id': 4, 'descricao': 'Composiçao', 
             'obs': '\n\nO lixo eletrônico é produzido por materiais de origem inorgânica, como por exemplo:' + 
             'cobre, alumínio, metais pesados (mercúrio, cádmio, berílio e chumbo)', 
+            'tipo': 'eletronico' },
+
+        { 'id': 5, 'descricao': 'Cuidados', 
+            'obs':'\n\n\nOs materiais eletrônicos são formados por, componentes de plástico, metal e placas de componentes '+
+            'eletrônicos que ainda podem ser usados. Esses componentes podem conter mais de 60 '+
+            'substâncias tóxicas e nocivas ao meio ambiente e as pessoas. Por isso não devem ser '+
+            'descartados junto com outros materiais reciclaveis. Mantenha os materiais eletrônicos longe '+
+            'de fatores que possam danificá-los, como calor e excesso de umidade, evitando assim vazamentos químicos e outros danos ao meio ambiente. '+
+            'E nunca desmonte esses equipamentos sem conhecimento.', 
             'tipo': 'eletronico' },
 
     ]
