@@ -159,11 +159,12 @@ def exibeInfoByopcao(numeroinfo):
         for info in informacoes:
             print('[{id}] - {nome}'.format(id = info['id'], nome = info['descricao']))
 
-        print('\nSe quiser voltar para o menu inicial, digite a palavra VOLTAR ;)')
+        print('\nSe quiser voltar para o menu inicial, digite a palavra VOLTAR')
        
 
         opcaoEscolhida = input('\nO que deseja saber sobre o ' + str(info['tipo']) +', digite um numero: ')
 
+        
         # ## Converte para inteiro (int) caso o usuário tenha digitado somente números
         opcaoEscolhida = int(opcaoEscolhida) if opcaoEscolhida.isnumeric() else str(opcaoEscolhida)
 
@@ -172,7 +173,9 @@ def exibeInfoByopcao(numeroinfo):
             infoEscolhida = getInfoById(informacoes, opcaoEscolhida)
         elif str(opcaoEscolhida).upper() == VOLTAR:
             ## Volta para o menu inicial
-            return True
+         cleanConsole()
+         exibeMenuInicial()
+         return True
         else:
             opcaoValida = False
             exibeMensagemErro('Tente novamente.')
@@ -263,6 +266,8 @@ def exibeMensagemErro(msg):
 def cleanConsole():
     os.system('clear') ## windows
     os.system('cls') ## Executa o comando 'cls' no console no linux
+
+
 
 ## Funçao main
 if __name__ == "__main__" :
